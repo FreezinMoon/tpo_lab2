@@ -3,14 +3,21 @@ package test.java.integration;
 import main.java.integration.steps.Step0_AllStubs;
 import main.java.system.PiecewiseFunction;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class Step0AllStubsTest {
 
+    private PiecewiseFunction sys;
+
+    @Before
+    public void setUp() {
+        sys = Step0_AllStubs.createAllStubSystem();
+    }
+
     @Test
     public void testNegativeXStub() {
-        PiecewiseFunction sys = Step0_AllStubs.createAllStubSystem();
         double x = -Math.PI / 4;
 
         double result = sys.calculate(x);
@@ -21,13 +28,11 @@ public class Step0AllStubsTest {
 
     @Test(expected = ArithmeticException.class)
     public void testXEqualsOneThrows() {
-        PiecewiseFunction sys = Step0_AllStubs.createAllStubSystem();
-        sys.calculate(1.0); // ждем ArithmeticException
+        sys.calculate(1.0);
     }
 
     @Test
     public void testXGreaterThanOneStub() {
-        PiecewiseFunction sys = Step0_AllStubs.createAllStubSystem();
         double x = 2.0;
         double val = sys.calculate(x);
         System.out.println("Step0 -> f(2.0) = " + val);
@@ -36,7 +41,6 @@ public class Step0AllStubsTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testXEqualsZeroThrows() {
-        PiecewiseFunction sys = Step0_AllStubs.createAllStubSystem();
         sys.calculate(0.0);
     }
 }

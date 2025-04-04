@@ -8,17 +8,9 @@ import main.java.modules.log.real.LnModuleReal;
 import main.java.modules.log.real.Log2ModuleReal;
 import main.java.modules.log.real.Log3ModuleReal;
 import main.java.modules.log.real.Log5ModuleReal;
-
-import main.java.modules.trig.SinModule;
-import main.java.modules.trig.CosModule;
-import main.java.modules.trig.TanModule;
-import main.java.modules.trig.CotModule;
-import main.java.modules.trig.SecModule;
-import main.java.modules.trig.real.SinModuleReal;
-import main.java.modules.trig.real.CosModuleReal;
-import main.java.modules.trig.real.TanModuleReal;
-import main.java.modules.trig.real.CotModuleReal;
-import main.java.modules.trig.real.SecModuleReal;
+import main.java.modules.trig.*;
+import main.java.modules.trig.real.*;
+import main.java.system.PiecewiseFunction;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -41,6 +33,7 @@ public class ModuleCsvApp {
         System.out.println("7 - Log2");
         System.out.println("8 - Log3");
         System.out.println("9 - Log5");
+        System.out.println("10 - Calculate");
         System.out.print("> ");
 
         int choice = scanner.nextInt();
@@ -80,7 +73,6 @@ public class ModuleCsvApp {
 
     private static Object createRealModule(int choice) {
         double eps = 1e-4;
-
         switch (choice) {
             case 1:
                 return new SinModuleReal(eps);
@@ -108,6 +100,19 @@ public class ModuleCsvApp {
             case 9:
                 LnModule ln5 = new LnModuleReal(eps);
                 return new Log5ModuleReal(ln5);
+            case 10:
+                SinModule sinReal3 = new SinModuleReal(eps);
+                CosModule cosReal3 = new CosModuleReal(sinReal3);
+                TanModule tanReal3 = new TanModuleReal(sinReal3, cosReal3);
+                CotModule cotReal = new CotModuleReal(tanReal3);
+                SecModule secReal = new SecModuleReal(cosReal3);
+
+                LnModule lnReal = new LnModuleReal(eps);
+                Log2Module log2Real = new Log2ModuleReal(lnReal);
+                Log3Module log3Real = new Log3ModuleReal(lnReal);
+                Log5Module log5Real = new Log5ModuleReal(lnReal);
+
+                return new PiecewiseFunction(tanReal3, cotReal, secReal, log2Real, log3Real, log5Real, lnReal);
             default:
                 throw new IllegalArgumentException("Неверный выбор модуля!");
         }
@@ -124,6 +129,7 @@ public class ModuleCsvApp {
             case 7 -> "log2";
             case 8 -> "log3";
             case 9 -> "log5";
+            case 10 -> "calculate";
             default -> "unknown";
         };
     }
@@ -139,6 +145,7 @@ public class ModuleCsvApp {
             case Log2Module log2Module -> log2Module.log2(x);
             case Log3Module log3Module -> log3Module.log3(x);
             case Log5Module log5Module -> log5Module.log5(x);
+            case PiecewiseFunction piecewiseFunction -> piecewiseFunction.calculate(x);
             case null, default -> throw new IllegalArgumentException("Неизвестный модуль");
         };
     }

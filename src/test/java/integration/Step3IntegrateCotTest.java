@@ -1,16 +1,16 @@
 package test.java.integration;
 
-import main.java.integration.steps.Step1_IntegrateSin;
+import main.java.integration.steps.Step3_IntegrateCot;
 import main.java.system.PiecewiseFunction;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
-public class Step1IntegrateSinTest {
+public class Step3IntegrateCotTest {
 
     @Test
-    public void testNegativeXWithRealSin() {
-        PiecewiseFunction sys = Step1_IntegrateSin.createSystem();
+    public void testNegativeXWithRealCot() {
+        PiecewiseFunction sys = Step3_IntegrateCot.createSystem();
 
         double x = -Math.PI / 4;
         double val = sys.calculate(x);
@@ -20,7 +20,7 @@ public class Step1IntegrateSinTest {
 
     @Test(expected = ArithmeticException.class)
     public void testXEqualsOneThrowsStill() {
-        PiecewiseFunction sys = Step1_IntegrateSin.createSystem();
+        PiecewiseFunction sys = Step3_IntegrateCot.createSystem();
         sys.calculate(1.0);
     }
 }

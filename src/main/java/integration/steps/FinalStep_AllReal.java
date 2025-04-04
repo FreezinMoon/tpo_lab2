@@ -14,7 +14,7 @@ import main.java.system.PiecewiseFunction;
 
 public class FinalStep_AllReal {
     public static PiecewiseFunction createSystem() {
-        double eps = 1e-7;
+        double eps = 1e-5;
         SinModule sinReal = new SinModuleReal(eps);
         CosModule cosReal = new CosModuleReal(sinReal);
         TanModule tanReal = new TanModuleReal(sinReal, cosReal);
